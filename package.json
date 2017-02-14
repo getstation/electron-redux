@@ -32,7 +32,7 @@
     "redux": "^3.4.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
+    "babel-cli": "^6.23.0",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^18.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
