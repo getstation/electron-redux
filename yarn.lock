@@ -4693,6 +4693,11 @@ stealthy-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
+stream-electron-ipc@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/stream-electron-ipc/-/stream-electron-ipc-1.0.7.tgz#8db3c687636eea69a0a4d5eb8db462e00e552178"
+  integrity sha512-zm9ey4eIsWbiD7rz6RKuHCbzm45r9r4ZMnNcf2EfafnFOFJfRTWIpMOKw3Egq7PqXH5rPLRV9MSLekWPKanQyw==
+
 stream-json-rpc@^0.5.5:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/stream-json-rpc/-/stream-json-rpc-0.5.5.tgz#27f69b48a3125b69a730f2e747c3e143a8f9707b"

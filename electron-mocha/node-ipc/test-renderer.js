@@ -2,8 +2,8 @@
 import { ipcRenderer } from 'electron';
 import { applyMiddleware, createStore } from 'redux';
 import { getClient, NodeIpcClientDuplex } from 'stream-node-ipc';
-import { client } from '../src';
-import reducer from './reducers';
+import { client } from '../../src';
+import reducer from '../reducers';
 
 const ipcClient = getClient('getstation-electron-redux-test');
 const duplex = new NodeIpcClientDuplex(ipcClient);

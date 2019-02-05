@@ -1,8 +1,8 @@
 import { ipcMain, webContents } from 'electron';
 import { applyMiddleware, createStore } from 'redux';
 import { firstConnectionHandler, getServer } from 'stream-node-ipc';
-import { server } from '../src';
-import reducer from './reducers';
+import { server } from '../../src';
+import reducer from '../reducers';
 
 const ipcServer = getServer('getstation-electron-redux-test');
 const { forwardToClients, replayActionServer } = server(

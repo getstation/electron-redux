@@ -24,7 +24,7 @@ export default class Peers {
       }
 
       peer.on('end', () => {
-        this.peers.remove(peer);
+        this.peers.delete(peer);
       });
     });
   }
