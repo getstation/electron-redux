@@ -19,8 +19,14 @@ jobs:
             - "~/.cache/yarn"
             - "~/electron-redux/node_modules"
       - run:
-          name: Run unit tests
-          command: yarn test
+          name: Run jest tests
+          command: yarn run jest
+      - run:
+          name: Run electron-mocha (node-ipc) tests
+          command: yarn run mocha-node-ipc
+      - run:
+          name: Run electron-mocha (electron-ipc) tests
+          command: yarn run mocha-electron-ipc
       - store_artifacts:
           path: ~/electron-redux/dist
           destination: dist

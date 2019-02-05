@@ -4693,15 +4693,15 @@ stealthy-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-stream-electron-ipc@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/stream-electron-ipc/-/stream-electron-ipc-1.0.7.tgz#8db3c687636eea69a0a4d5eb8db462e00e552178"
-  integrity sha512-zm9ey4eIsWbiD7rz6RKuHCbzm45r9r4ZMnNcf2EfafnFOFJfRTWIpMOKw3Egq7PqXH5rPLRV9MSLekWPKanQyw==
+stream-electron-ipc@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/stream-electron-ipc/-/stream-electron-ipc-1.0.8.tgz#025f7f6d41379f3a77bb2f8b9a77b8ab9019aec3"
+  integrity sha512-mhcKnO1Wy3IaYSZiJqIDI6r98yA5iSLIaGGt/vYOkMjLNp3SjTtE5fV/qkAOtLmEqjUkZGRkFMpZB9xN6ywVfw==
 
-stream-json-rpc@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/stream-json-rpc/-/stream-json-rpc-0.5.5.tgz#27f69b48a3125b69a730f2e747c3e143a8f9707b"
-  integrity sha512-TBLcPYtA5Of3LzlVfPXHibv9tuXQntTpPIc2BkR/eQEBLHkeRbSEmoN3DFHtUaG4MzOGRpVZBJ7XQXYpO8Fcvw==
+stream-json-rpc@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/stream-json-rpc/-/stream-json-rpc-0.5.6.tgz#7c77c088b1147ca329b6fc95f46e5532bd6e42b0"
+  integrity sha512-lClZo4JbV9yy0Kz1ImMDplc1N8WiXW2Jqzo4i0EHUa39tY5PULKeAb5+ikRGDDM1PChaq8rrc97C1tCvfrYXsw==
   dependencies:
     "@magne4000/json-rpc-peer" "^0.16.0"
     bpmux "7.0.15"
