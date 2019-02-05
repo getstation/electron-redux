@@ -3,16 +3,17 @@ import rpcchannel from 'stream-json-rpc';
 const transit = require('transit-immutable-js');
 
 export default class Peers {
-  constructor(firstConnectionHandler) {
+  constructor(firstConnectionHandler, namespace) {
     this.firstConnectionHandler = firstConnectionHandler;
     this.peers = new Set(); // List of clients
     this.handler = undefined;
+    this.namespace = namespace;
   }
 
   handleNewConnections(store) {
     this.firstConnectionHandler((duplex) => {
       const channel = rpcchannel(duplex);
-      const peer = channel.peer('electron-redux-peer');
+      const peer = channel.peer(this.namespace);
       peer.setRequestHandler('client-ask-initial-state', () => transit.toJSON(store.getState()));
 
       this.peers.add(peer);

@@ -1,23 +1,23 @@
 import { ipcMain, webContents } from 'electron';
 import { applyMiddleware, createStore } from 'redux';
 import { firstConnectionHandler, getServer } from 'stream-node-ipc';
-import replayActionServer from '../src/helpers/replayActionServer';
-import forwardToClients from '../src/middleware/forwardToClients';
-import Peers from '../src/middleware/peers';
+import { server } from '../src';
 import reducer from './reducers';
 
 const ipcServer = getServer('getstation-electron-redux-test');
-const peers = new Peers(callback => firstConnectionHandler(ipcServer, callback));
+const { forwardToClients, replayActionServer } = server(
+  callback => firstConnectionHandler(ipcServer, callback),
+);
 
 const store = createStore(
   reducer,
   {},
   applyMiddleware(
-    forwardToClients(peers),
+    forwardToClients,
   ),
 );
 
-replayActionServer(peers)(store);
+replayActionServer(store);
 
 ipcMain.on('test:dispatch-from-main', () => {
   store.dispatch({

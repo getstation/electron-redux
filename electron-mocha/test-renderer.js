@@ -1,31 +1,29 @@
 // in the renderer store
 import { ipcRenderer } from 'electron';
 import { applyMiddleware, createStore } from 'redux';
-import rpcchannel from 'stream-json-rpc';
 import { getClient, NodeIpcClientDuplex } from 'stream-node-ipc';
-import getInitialStateClient from '../src/helpers/getInitialStateClient';
-import replayActionClient from '../src/helpers/replayActionClient';
-import forwardToServer from '../src/middleware/forwardToServer';
+import { client } from '../src';
 import reducer from './reducers';
 
 const ipcClient = getClient('getstation-electron-redux-test');
-const channel = rpcchannel(new NodeIpcClientDuplex(ipcClient));
-const peer = channel.peer('electron-redux-peer');
+const duplex = new NodeIpcClientDuplex(ipcClient);
+
+const { forwardToServer, getInitialStateClient, replayActionClient } = client(duplex);
 
 describe('forwards actions to and from renderer', () => {
   let store;
   before(async () => {
-    const initialState = await getInitialStateClient(peer);
+    const initialState = await getInitialStateClient();
 
     store = createStore(
       reducer,
       initialState,
       applyMiddleware(
-        forwardToServer(peer),
+        forwardToServer,
       ),
     );
 
-    replayActionClient(peer)(store);
+    replayActionClient(store);
   });
 
   it('should have a valid initial state', (done) => {
