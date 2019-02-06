@@ -1,7 +1,7 @@
 {
-  "name": "@getstation/electron-redux",
-  "version": "2.0.0-rc.1",
-  "description": "Use redux in the main and browser process in electron",
+  "name": "shared-redux",
+  "version": "1.0.0",
+  "description": "Use redux in multiple node/electron processes and keep them in sync",
   "main": "dist/index.js",
   "scripts": {
     "jest": "rm -rf coverage && jest -c jest.config.json --coverage",
@@ -14,20 +14,23 @@
   },
   "keywords": [
     "electron",
+    "node",
+    "multiprocess",
+    "shared",
+    "sync",
     "redux",
-    "react",
     "desktop"
   ],
-  "author": "Burkhard Reffeling <burkhard.reffeling@gmail.com> (http://www.burgiblog.com)",
+  "author": "Joël Charles <joel@getstation.com>",
   "contributors": [
-    "Joël Charles <joel@getstation.com>"
+    "Burkhard Reffeling <burkhard.reffeling@gmail.com> (http://www.burgiblog.com)"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/getstation/electron-redux.git"
+    "url": "https://github.com/getstation/shared-redux.git"
   },
-  "homepage": "https://github.com/getstation/electron-redux",
-  "bugs": "https://github.com/getstation/electron-redux/issues",
+  "homepage": "https://github.com/getstation/shared-redux",
+  "bugs": "https://github.com/getstation/shared-redux/issues",
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.3.1",

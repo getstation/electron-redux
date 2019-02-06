@@ -1,4 +1,4 @@
-# @getstation/electron-redux
+# shared-redux
 [![CircleCI](https://circleci.com/gh/getstation/electron-redux/tree/master.svg?style=svg)](https://circleci.com/gh/getstation/electron-redux/tree/master)
 
 - [Motivation](#motivation)
