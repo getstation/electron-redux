@@ -1,31 +1,39 @@
-import { ipcRenderer } from 'electron';
-import forwardToMain from '../forwardToMain';
+import forwardToServer from '../forwardToServer';
 
-jest.unmock('../forwardToMain');
-
-describe('forwardToMain', () => {
+describe('forwardToServer', () => {
   it('should pass an action through if it starts with @@', () => {
     const next = jest.fn();
+    const peer = {
+      notify: jest.fn(),
+    };
     const action = { type: '@@SOMETHING' };
 
-    forwardToMain()(next)(action);
+    forwardToServer(peer)()(next)(action);
 
     expect(next.mock.calls.length).toBe(1);
     expect(next).toBeCalledWith(action);
+    expect(peer.notify.mock.calls.length).toBe(0);
   });
 
   it('should pass an action through if it starts with redux-form', () => {
     const next = jest.fn();
+    const peer = {
+      notify: jest.fn(),
+    };
     const action = { type: 'redux-form' };
 
-    forwardToMain()(next)(action);
+    forwardToServer(peer)()(next)(action);
 
     expect(next.mock.calls.length).toBe(1);
     expect(next).toBeCalledWith(action);
+    expect(peer.notify.mock.calls.length).toBe(0);
   });
 
   it('should pass an action through if the scope is local', () => {
     const next = jest.fn();
+    const peer = {
+      notify: jest.fn(),
+    };
     const action = {
       type: 'MY_ACTION',
       meta: {
@@ -33,14 +41,18 @@ describe('forwardToMain', () => {
       },
     };
 
-    forwardToMain()(next)(action);
+    forwardToServer(peer)()(next)(action);
 
     expect(next.mock.calls.length).toBe(1);
     expect(next).toBeCalledWith(action);
+    expect(peer.notify.mock.calls.length).toBe(0);
   });
 
   it('should forward any actions to the main process', () => {
     const next = jest.fn();
+    const peer = {
+      notify: jest.fn(),
+    };
     const action = {
       type: 'SOMETHING',
       meta: {
@@ -49,9 +61,9 @@ describe('forwardToMain', () => {
       },
     };
 
-    forwardToMain()(next)(action);
+    forwardToServer(peer)()(next)(action);
 
-    expect(ipcRenderer.send.mock.calls.length).toBe(1);
-    expect(ipcRenderer.send).toBeCalledWith('redux-action', action);
+    expect(peer.notify.mock.calls.length).toBe(1);
+    expect(peer.notify).toBeCalledWith('redux-action', action);
   });
 });

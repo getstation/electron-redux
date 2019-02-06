@@ -3,27 +3,30 @@ jobs:
   build:
     working_directory: ~/electron-redux
     docker:
-      - image: node:8.12.0
+      - image: circleci/node:8.15.0-browsers
     steps:
       - checkout
       - restore_cache:
           keys:
-            - electron-redux-{{ .Branch }}
-            - electron-redux-
+            - v2-electron-redux-{{ .Branch }}
+            - v2-electron-redux-
       - run:
           name: Install Dependencies
           command: yarn
       - save_cache:
-          key: electron-redux-{{ .Branch }}
+          key: v2-electron-redux-{{ .Branch }}
           paths:
             - "~/.cache/yarn"
             - "~/electron-redux/node_modules"
       - run:
-          name: Run unit tests
-          command: yarn test
+          name: Run jest tests
+          command: yarn run jest
       - run:
-          name: Run complete tests
-          command: yarn run full-test
+          name: Run electron-mocha (node-ipc) tests
+          command: yarn run mocha-node-ipc
+      - run:
+          name: Run electron-mocha (electron-ipc) tests
+          command: yarn run mocha-electron-ipc
       - store_artifacts:
           path: ~/electron-redux/dist
           destination: dist

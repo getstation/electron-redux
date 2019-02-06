@@ -1,17 +1,29 @@
-import forwardToMain from './middleware/forwardToMain';
-import forwardToRenderer from './middleware/forwardToRenderer';
-import triggerAlias from './middleware/triggerAlias';
-import createAliasedAction from './helpers/createAliasedAction';
-import replayActionMain from './helpers/replayActionMain';
-import replayActionRenderer from './helpers/replayActionRenderer';
-import getInitialStateRenderer from './helpers/getInitialStateRenderer';
+import rpcchannel from 'stream-json-rpc';
+import getInitialStateClient from './helpers/getInitialStateClient';
+import replayActionClient from './helpers/replayActionClient';
+import replayActionServer from './helpers/replayActionServer';
+import forwardToClients from './middleware/forwardToClients';
+import forwardToServer from './middleware/forwardToServer';
+import Peers from './middleware/peers';
 
-export {
-  forwardToMain,
-  forwardToRenderer,
-  triggerAlias,
-  createAliasedAction,
-  replayActionMain,
-  replayActionRenderer,
-  getInitialStateRenderer,
+const defaultNamespace = 'electron-redux-peer';
+
+export const client = (duplex, peerNamespace = defaultNamespace) => {
+  const channel = rpcchannel(duplex);
+  const peer = channel.peer(peerNamespace);
+
+  return {
+    forwardToServer: forwardToServer(peer),
+    replayActionClient: replayActionClient(peer),
+    getInitialStateClient: getInitialStateClient(peer),
+  };
+};
+
+export const server = (duplexCallback, peerNamespace = defaultNamespace) => {
+  const peers = new Peers(duplexCallback, peerNamespace);
+
+  return {
+    forwardToClients: forwardToClients(peers),
+    replayActionServer: replayActionServer(peers),
+  };
 };
