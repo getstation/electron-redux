@@ -1,5 +1,5 @@
 # shared-redux
-[![CircleCI](https://circleci.com/gh/getstation/electron-redux/tree/master.svg?style=svg)](https://circleci.com/gh/getstation/electron-redux/tree/master)
+[![CircleCI](https://circleci.com/gh/getstation/shared-redux/tree/master.svg?style=svg)](https://circleci.com/gh/getstation/shared-redux/tree/master)
 
 - [Motivation](#motivation)
 - [Install](#install)
@@ -7,119 +7,91 @@
 	- [Local actions (renderer process)](#local-actions-renderer-process)
 	- [Aliased actions (main process)](#aliased-actions-main-process)
 
-## Differences with trunk repo
+## Differences with electron-redux
 - This fork doesn't enforce [FSA](https://github.com/acdlite/flux-standard-action#example)
-- Support for ImmutableJS but drop of support for POJSO
+- Supports only ImmutableJS (for now)
 - Change dispatch execution order: the process from where the action is dispatched reduces action immediately instead of waiting for the the main to dispatch action in other processes.
+- **Can be used by electron or node in the same way**. This also means that, if used in Electron, any renderer process can act as the "server" instead of the main process.
 
-## Motivation
+![shared-redux basic](https://user-images.githubusercontent.com/1098371/52342828-ba9cdc00-2a16-11e9-8a82-9dcee4647711.png)
 
-Using redux with electron poses a couple of problems. Processes ([main](https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md#main-process) and [renderer](https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md#renderer-process)) are completely isolated, and the only mode of communication is [IPC](https://github.com/electron/electron/blob/master/docs/api/ipc-main.md).
-
-* Where do you keep the state?
-* How do you keep the state in sync across processes?
-
+## Motivations
+1) Using redux with electron poses a couple of problems. Processes ([main](https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md#main-process) and [renderer](https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md#renderer-process)) are isolated.
+2) At [Station](https://github.com/getstation), we have the core the app that runs inside a Worker process (invisible renderer). This implies the following:
+    - The worker process acts as the redux server
+    - We need a way to have the main process and any other renderer to directly talk to the worker
+    - Those 2 points make it tricky to use electron own IPC methods because they force the main process to act as the server
 
 ### The solution
-
-`electron-redux` offers an easy to use solution. The redux store on the main process becomes the single source of truth, and stores in the renderer processes become mere proxies. See [under the hood](#under-the-hood).
-
-![electron-redux basic](https://cloud.githubusercontent.com/assets/307162/20675737/385ce59e-b585-11e6-947e-3867e77c783d.png)
+`shared-redux` offers a plug and play solution:
+  - Choose a process: it acts as the single source of truth for your redux store
+  - Choose how your processes communicate: We leverage [stream-json-rpc](https://github.com/getstation/stream-json-rpc) to have a transport agnostic lib. You can plug any stream-compatible layer or write your own.
+    - `stream-json-rpc` already implements a Stream layer for electron own IPC and [node-ipc](https://github.com/RIAEvangelist/node-ipc)
 
 ## Install
 
-```
-npm install --save @getstation/electron-redux
+```sh
+# npm
+npm install --save shared-redux
+# yarn
+yarn add shared-redux
 ```
 
-`@getstation/electron-redux` comes as redux middleware that is really easy to apply:
+`shared-redux` comes as redux middleware:
 
 ```javascript
-// in the main store
-import {
-  forwardToRenderer,
-  triggerAlias,
-  replayActionMain,
-} from '@getstation/electron-redux';
+// in the server store
+import { server } from 'shared-redux';
+import { firstConnectionHandler } from 'stream-electron-ipc';
+// Or if you want to use node-ipc
+// import { firstConnectionHandler } from 'stream-node-ipc';
 
+// firstConnectionHandler have the following signature:
+// (callback: (socket: Duplex) => void) => void;
+// This method should use own Duplex implementation on top of the protocol you have chosen,
+// and call the given callback with the Duplex as a parameter once a new client is connected.
+// See https://github.com/getstation/stream-json-rpc/blob/master/packages/stream-electron-ipc/src/index.ts for details.
+const { forwardToClients, replayActionServer } = server(firstConnectionHandler);
+
+// reducers are shared amongst processes, so keep them pure!
 const todoApp = combineReducers(reducers);
 
 const store = createStore(
   todoApp,
   initialState, // optional
   applyMiddleware(
-    triggerAlias, // optional, see below
     ...otherMiddleware,
-    forwardToRenderer, // IMPORTANT! This goes last
+    forwardToClients, // IMPORTANT! This goes last
   )
 );
 
-replayActionMain(store);
+replayActionServer(store);
 ```
 
 ```javascript
-// in the renderer store
-import {
-  forwardToMain,
-  replayActionRenderer,
-  getInitialStateRenderer,
-} from '@getstation/electron-redux';
+// in the client store
+import { client } from 'shared-redux';
+import { ElectronIpcRendererDuplex } from 'stream-electron-ipc';
+// Or any other protocol wrapped in a Duplex
 
+const duplex = new ElectronIpcRendererDuplex();
+
+const { forwardToServer, getInitialStateClient, replayActionClient } = client(duplex);
+
+// reducers are shared amongst processes, so keep them pure!
 const todoApp = combineReducers(reducers);
-const initialState = getInitialStateRenderer();
+const initialState = getInitialStateClient();
 
 const store = createStore(
   todoApp,
   initialState,
   applyMiddleware(
-    forwardToMain, // IMPORTANT! This goes first
+    forwardToServer, // IMPORTANT! This goes first
     ...otherMiddleware,
   )
 );
 
-replayActionRenderer(store);
+replayActionClient(store);
 ```
-
-Check out [timesheets](https://github.com/hardchor/timesheets/blob/4991fd472dbb12b0c6e6806c6a01ea3385ab5979/app/shared/store/configureStore.js) for a more advanced example.
 
 And that's it! You are now ready to fire actions without having to worry about synchronising your state between processes.
-
-
-### Local actions (renderer process)
-
-By default, all actions are being broadcast from the main store to the renderer processes. However, some state should only live in the renderer (e.g. `isPanelOpen`). `electron-redux` introduces the concept of action scopes.
-
-To stop an action from propagating from renderer to main store, simply set the scope to `local`:
-
-```javascript
-function myLocalActionCreator() {
-  return {
-    type: 'MY_ACTION',
-    payload: 123,
-    meta: {
-      scope: 'local',
-    },
-  };
-}
-```
-
-
-### Aliased actions (main process)
-
-Most actions will originate from the renderer side, but not all should be executed there as well. A great example is fetching of data from an external source, e.g. using [promise middleware](https://github.com/acdlite/redux-promise), which should only ever be executed once (i.e. in the main process). This can be achieved using the `triggerAlias` middleware mentioned [above](#install).
-
-Using the `createAliasedAction` helper, you can quite easily create actions that are are only being executed in the main process, and the result of which is being broadcast to the renderer processes.
-
-```javascript
-import { createAliasedAction } from 'electron-redux';
-
-export const importGithubProjects = createAliasedAction(
-  'IMPORT_GITHUB_PROJECTS', // unique identifier
-  (accessToken, repoFullName) => ({
-    type: 'IMPORT_GITHUB_PROJECTS',
-    payload: importProjects(accessToken, repoFullName),
-  })
-);
-```
-
-Check out [timesheets](https://github.com/hardchor/timesheets/blob/4ccaf08dee4e1a02850b5bf36e37c537fef7d710/app/shared/actions/github.js) for more examples.

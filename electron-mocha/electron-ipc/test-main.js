@@ -4,9 +4,7 @@ import { firstConnectionHandler } from 'stream-electron-ipc';
 import { server } from '../../src';
 import reducer from '../reducers';
 
-const { forwardToClients, replayActionServer } = server(
-  callback => firstConnectionHandler(callback),
-);
+const { forwardToClients, replayActionServer } = server(firstConnectionHandler);
 
 const store = createStore(
   reducer,
