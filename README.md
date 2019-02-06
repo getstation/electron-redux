@@ -1,11 +1,12 @@
 # shared-redux
 [![CircleCI](https://circleci.com/gh/getstation/shared-redux/tree/master.svg?style=svg)](https://circleci.com/gh/getstation/shared-redux/tree/master)
 
-- [Motivation](#motivation)
-- [Install](#install)
-- [Actions](#local-actions-renderer-process)
-	- [Local actions (renderer process)](#local-actions-renderer-process)
-	- [Aliased actions (main process)](#aliased-actions-main-process)
+## Motivations
+1) Using redux with electron poses a couple of problems. Processes ([main](https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md#main-process) and [renderer](https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md#renderer-process)) are isolated.
+2) At [Station](https://github.com/getstation), we have the core the app that runs inside a Worker process (invisible renderer). This implies the following:
+    - The worker process acts as the redux server
+    - We need a way to have the main process and any other renderer to directly talk to the worker
+    - Those 2 points make it tricky to use electron own IPC methods because they force the main process to act as the server
 
 ## Differences with electron-redux
 - This fork doesn't enforce [FSA](https://github.com/acdlite/flux-standard-action#example)
@@ -14,13 +15,6 @@
 - **Can be used by electron or node in the same way**. This also means that, if used in Electron, any renderer process can act as the "server" instead of the main process.
 
 ![shared-redux basic](https://user-images.githubusercontent.com/1098371/52342828-ba9cdc00-2a16-11e9-8a82-9dcee4647711.png)
-
-## Motivations
-1) Using redux with electron poses a couple of problems. Processes ([main](https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md#main-process) and [renderer](https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md#renderer-process)) are isolated.
-2) At [Station](https://github.com/getstation), we have the core the app that runs inside a Worker process (invisible renderer). This implies the following:
-    - The worker process acts as the redux server
-    - We need a way to have the main process and any other renderer to directly talk to the worker
-    - Those 2 points make it tricky to use electron own IPC methods because they force the main process to act as the server
 
 ### The solution
 `shared-redux` offers a plug and play solution:
