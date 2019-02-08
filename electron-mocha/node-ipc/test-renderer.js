@@ -28,8 +28,11 @@ describe('forwards actions to and from renderer', () => {
 
   it('should have a valid initial state', (done) => {
     const state = store.getState();
-    if (state.toString() === '[object Object]' && JSON.stringify(state) === '{}') return done();
-    return done(new Error(`Invalid state ${state}`));
+    const initialState = { a: 'xyz'.repeat(10000) };
+    if (state.toString() === '[object Object]'
+      && JSON.stringify(state) === JSON.stringify(initialState)
+    ) return done();
+    return done(new Error(`Invalid state ${JSON.stringify(state)}`));
   });
 
   it('should forward action from renderer to main', (done) => {

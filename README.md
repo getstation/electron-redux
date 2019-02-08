@@ -74,7 +74,7 @@ const { forwardToServer, getInitialStateClient, replayActionClient } = client(du
 
 // reducers are shared amongst processes, so keep them pure!
 const todoApp = combineReducers(reducers);
-const initialState = getInitialStateClient();
+const initialState = await getInitialStateClient();
 
 const store = createStore(
   todoApp,

@@ -8,7 +8,7 @@ const { forwardToClients, replayActionServer } = server(firstConnectionHandler);
 
 const store = createStore(
   reducer,
-  {},
+  { a: 'xyz'.repeat(10000) },
   applyMiddleware(
     forwardToClients,
   ),
