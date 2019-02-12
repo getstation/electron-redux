@@ -1,6 +1,6 @@
 {
   "name": "shared-redux",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Use redux in multiple node/electron processes and keep them in sync",
   "main": "dist/index.js",
   "scripts": {
