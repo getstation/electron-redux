@@ -1525,7 +1525,7 @@ electron@^4.0.4:
     electron-download "^4.1.0"
     extract-zip "^1.0.3"
 
-end-of-stream@^1.0.0, end-of-stream@^1.1.0:
+end-of-stream@^1.0.0, end-of-stream@^1.1.0, end-of-stream@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.1.tgz#ed29634d19baba463b6ce6b80a37213eab71ec43"
   integrity sha512-1MkrZNvWTKCaigbn+W15elq2BB/L22nqrSY5DKlo3X6+vclJm8Bb5djXJBmEX6fS3+zCh/F4VBK5Z2KxJt4s2Q==
@@ -4702,25 +4702,26 @@ stealthy-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-stream-electron-ipc@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/stream-electron-ipc/-/stream-electron-ipc-1.0.8.tgz#025f7f6d41379f3a77bb2f8b9a77b8ab9019aec3"
-  integrity sha512-mhcKnO1Wy3IaYSZiJqIDI6r98yA5iSLIaGGt/vYOkMjLNp3SjTtE5fV/qkAOtLmEqjUkZGRkFMpZB9xN6ywVfw==
+stream-electron-ipc@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/stream-electron-ipc/-/stream-electron-ipc-1.0.9.tgz#994233a7560f1b2ab4b677851b002be301410c6c"
+  integrity sha512-a+Wxd6mA8C/N7KK5WH33YnbzqzA86vFlpcibODbFucNdARhmOy5Np51eCtfvn4USKpyO9SfMYhU9nF9/Hx97hQ==
 
-stream-json-rpc@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/stream-json-rpc/-/stream-json-rpc-0.6.1.tgz#2cbb9279ded1d9bc6a0e182ba472a3f7a467a1e7"
-  integrity sha512-3gzBaVaLyB6b5BvY0/GQshjXqwJTnZajqyQMB5qyZCBdjewaPoqQSrFCJBf7936aRR/KwcI2j5fwyN5LAD/52g==
+stream-json-rpc@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/stream-json-rpc/-/stream-json-rpc-0.7.0.tgz#4dc7b7e8abe4ebd3c08bc5398339d7f5094d466c"
+  integrity sha512-1nCcn0fmgj6v41jP41MKVXHGVCT1MemZGUbBuJ+h253/ko3Ehz84ZC0D9nYs+csqR7LVa6g4cnlGtBeZ6Amwjg==
   dependencies:
     "@magne4000/json-rpc-peer" "^0.16.0"
+    end-of-stream "^1.4.1"
     multiplex "^6.7.0"
     pump "^3.0.0"
     uuid "^3.3.2"
 
-stream-node-ipc@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/stream-node-ipc/-/stream-node-ipc-1.0.6.tgz#d604dbead645516c128c7d07960a54df6701db02"
-  integrity sha512-y/+oDY9RINzy56Bz//t5H0CbYHB0VDidadpAoAakoHQaOINxTmuszP9pdKgIInRf1Rz8cUNvnDkPdpoMfOBt4Q==
+stream-node-ipc@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/stream-node-ipc/-/stream-node-ipc-1.0.7.tgz#304120417925af20439a73634aff56f739921e13"
+  integrity sha512-mF2Inq3V6QDS2yoeUjQDe8kISmyRJj7NIMNbD2mvXfXJp/Tg6Tuzl6Zm1QhHozoQ6iyAvSqG07FvXbeULCQAKA==
   dependencies:
     node-ipc "^9.1.1"
 
