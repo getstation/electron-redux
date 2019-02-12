@@ -4707,10 +4707,10 @@ stream-electron-ipc@^1.0.9:
   resolved "https://registry.yarnpkg.com/stream-electron-ipc/-/stream-electron-ipc-1.0.9.tgz#994233a7560f1b2ab4b677851b002be301410c6c"
   integrity sha512-a+Wxd6mA8C/N7KK5WH33YnbzqzA86vFlpcibODbFucNdARhmOy5Np51eCtfvn4USKpyO9SfMYhU9nF9/Hx97hQ==
 
-stream-json-rpc@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/stream-json-rpc/-/stream-json-rpc-0.7.1.tgz#4cdb1a38ba446970d7256207882feca4cb4b4b8d"
-  integrity sha512-VNr5GKL+Hexg4DVbUfJHpHb5k9GO1jwNO8Lxzy6l230kjUJw3GiUrDlpfBsdomMwlP+tJu+aY2bxvAVlbRJZBg==
+stream-json-rpc@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/stream-json-rpc/-/stream-json-rpc-0.7.3.tgz#96ab67f4c072f55ce1b1d64a2882c5b6d5b9cfc6"
+  integrity sha512-DUdlQhYMX8jC6z0nza34hWrdY2ZwaD6iSd65jLGfVRwrjkHsT8mQugGWO8H9l+V+zl0cIxTjF9tJzUhtYfIFnw==
   dependencies:
     "@magne4000/json-rpc-peer" "^0.16.0"
     end-of-stream "^1.4.1"
@@ -4718,10 +4718,10 @@ stream-json-rpc@^0.7.1:
     pump "^3.0.0"
     uuid "^3.3.2"
 
-stream-node-ipc@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/stream-node-ipc/-/stream-node-ipc-1.0.8.tgz#0f89ff3e916e9df01d08af088facab3705975c66"
-  integrity sha512-Y5Zsyz7FLaFPj9SxlE6BI+88oY6G4Kou96OzR73yphSBdoFqx0rjq64NtH0HrlV97MOdlGNUQskBrxnN+3bs9g==
+stream-node-ipc@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/stream-node-ipc/-/stream-node-ipc-1.0.10.tgz#d5087ce67e139630f272eb102f9687e166ebf6d8"
+  integrity sha512-XOlO3T38/vEgtUC+B+ceslIUYG688ByL4vQn/PfmlMHUnn6DXP6NJ7aKRXYBbcqEmYk9m/W8qvJ4Yc3AnDOXqw==
   dependencies:
     node-ipc "^9.1.1"
 
