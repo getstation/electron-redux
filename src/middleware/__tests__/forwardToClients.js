@@ -37,7 +37,7 @@ describe('forwardToClient', () => {
     forwardToClients(peers)()(next)(action);
 
     expect(peers.broadcast).toHaveBeenCalledTimes(1);
-    expect(peers.broadcast).toBeCalledWith('redux-action', {
+    expect(peers.broadcast).toBeCalledWith({
       type: 'SOMETHING',
       meta: {
         some: 'meta',

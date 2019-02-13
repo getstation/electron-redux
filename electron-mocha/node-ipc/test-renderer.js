@@ -5,29 +5,35 @@ import { getClient, NodeIpcClientDuplex } from 'stream-node-ipc';
 import { client } from '../../src';
 import reducer from '../reducers';
 
-const ipcClient = getClient('getstation-electron-redux-test');
-const duplex = new NodeIpcClientDuplex(ipcClient);
+const ipcClient1 = getClient('getstation-electron-redux-test');
+const duplex1 = new NodeIpcClientDuplex(ipcClient1);
 
-const { forwardToServer, getInitialStateClient, replayActionClient } = client(duplex);
+const getStore = async (duplex) => {
+  const { forwardToServer, getInitialStateClient, replayActionClient } = client(duplex);
+  const initialState = await getInitialStateClient();
+
+  const store = createStore(
+    reducer,
+    initialState,
+    applyMiddleware(
+      forwardToServer,
+    ),
+  );
+
+  replayActionClient(store);
+
+  return store;
+};
 
 describe('forwards actions to and from renderer', () => {
-  let store;
+  let store1;
+
   before(async () => {
-    const initialState = await getInitialStateClient();
-
-    store = createStore(
-      reducer,
-      initialState,
-      applyMiddleware(
-        forwardToServer,
-      ),
-    );
-
-    replayActionClient(store);
+    store1 = await getStore(duplex1);
   });
 
   it('should have a valid initial state', (done) => {
-    const state = store.getState();
+    const state = store1.getState();
     const initialState = { a: 'xyz'.repeat(10000) };
     if (state.toString() === '[object Object]'
       && JSON.stringify(state) === JSON.stringify(initialState)
@@ -40,7 +46,7 @@ describe('forwards actions to and from renderer', () => {
       if (newMainState.test === 1) return done();
       return done(new Error(`Invalid main state ${JSON.stringify(newMainState)}`));
     });
-    store.dispatch({
+    store1.dispatch({
       type: 'test1',
     });
   });
@@ -49,7 +55,7 @@ describe('forwards actions to and from renderer', () => {
     ipcRenderer.once('test:reply-from-main', (_, newMainState) => {
       if (newMainState.test === 2) {
         return setTimeout(() => {
-          const localState = store.getState();
+          const localState = store1.getState();
           if (localState.test === 2) return done();
           return done(new Error(`Invalid local state ${JSON.stringify(localState)}`));
         }, 10); // wait for the state to dispatch the update

@@ -12,7 +12,7 @@ const forwardToClients = peers => (store) => {
       },
     };
 
-    peers.broadcast('redux-action', rendererAction);
+    peers.broadcast(rendererAction);
 
     return next(action);
   };

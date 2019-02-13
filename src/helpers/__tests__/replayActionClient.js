@@ -9,7 +9,9 @@ describe('replayActionClient', () => {
       setNotificationHandler: jest.fn(),
     };
     const payload = {
-      sender: 1,
+      meta: {
+        sender: 1,
+      },
       value: 123,
     };
 

@@ -6,6 +6,7 @@ export default class Peers {
   constructor(firstConnectionHandler, namespace) {
     this.firstConnectionHandler = firstConnectionHandler;
     this.peers = new Set(); // List of clients
+    this.remotePeerIds = new WeakMap();
     this.handler = undefined;
     this.namespace = namespace;
   }
@@ -19,8 +20,7 @@ export default class Peers {
       this.peers.add(peer);
 
       if (this.handler) {
-        const [key, handler] = this.handler;
-        peer.setNotificationHandler(key, handler(peer));
+        this.attachReduxActionHandler(peer);
       }
 
       peer.on('end', () => {
@@ -29,12 +29,37 @@ export default class Peers {
     });
   }
 
-  broadcast(key, value) {
-    this.peers.forEach(peer => peer.notify('redux-action', value));
+  isValidBroadcastTarget(peer, payload) {
+    return !payload.meta
+      || !this.remotePeerIds.has(peer)
+      || this.remotePeerIds.get(peer) !== payload.meta.sender;
   }
 
-  setNotificationHandler(key, handler) {
-    this.handler = [key, handler];
-    this.peers.forEach(peer => peer.setNotificationHandler(key, handler(peer)));
+  broadcast(payload) {
+    this.peers.forEach((peer) => {
+      // Do not send back to the original sender
+      if (this.isValidBroadcastTarget(peer, payload)) {
+        peer.notify('redux-action', payload);
+      }
+    });
+  }
+
+  setReduxActionHandler(handler) {
+    this.handler = handler;
+    const attachFn = this.attachReduxActionHandler.bind(this);
+    this.peers.forEach(attachFn);
+  }
+
+  attachReduxActionHandler(peer) {
+    peer.setNotificationHandler('redux-action', this.handlerWrapper(peer));
+  }
+
+  handlerWrapper(peer) {
+    return (payload) => {
+      if (!this.remotePeerIds.has(peer) && payload.meta && payload.meta.sender) {
+        this.remotePeerIds.set(peer, payload.meta.sender);
+      }
+      this.handler(payload);
+    };
   }
 }
