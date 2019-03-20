@@ -7,6 +7,7 @@ import forwardToServer from './middleware/forwardToServer';
 import Peers from './middleware/peers';
 
 const defaultNamespace = 'electron-redux-peer';
+const waitBeforeSendingInitialState = Promise.resolve();
 
 export const client = (duplex, peerNamespace = defaultNamespace) => {
   const channel = rpcchannel(duplex);
@@ -19,8 +20,10 @@ export const client = (duplex, peerNamespace = defaultNamespace) => {
   };
 };
 
-export const server = (duplexCallback, peerNamespace = defaultNamespace) => {
-  const peers = new Peers(duplexCallback, peerNamespace);
+export const server = (duplexCallback, peerNamespace = defaultNamespace, options = {
+  readyAfter: waitBeforeSendingInitialState,
+}) => {
+  const peers = new Peers(duplexCallback, peerNamespace, options);
 
   return {
     forwardToClients: forwardToClients(peers),
