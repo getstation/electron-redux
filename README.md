@@ -26,9 +26,9 @@
 
 ```sh
 # npm
-npm install --save shared-redux
+npm install --save shared-redux stream-json-rpc
 # yarn
-yarn add shared-redux
+yarn add shared-redux stream-json-rpc
 ```
 
 `shared-redux` comes as redux middleware:
