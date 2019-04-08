@@ -4702,15 +4702,15 @@ stealthy-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-stream-electron-ipc@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/stream-electron-ipc/-/stream-electron-ipc-1.0.9.tgz#994233a7560f1b2ab4b677851b002be301410c6c"
-  integrity sha512-a+Wxd6mA8C/N7KK5WH33YnbzqzA86vFlpcibODbFucNdARhmOy5Np51eCtfvn4USKpyO9SfMYhU9nF9/Hx97hQ==
+stream-electron-ipc@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/stream-electron-ipc/-/stream-electron-ipc-1.0.13.tgz#fa7cf46ff46235c67030b1a22b52585360a76e53"
+  integrity sha512-OnIzfNkOqhJ6Jrp2IPd3V4HUCoBwjxcUY7nD5zHmn5LwDYNGfyQ0yaSOREuT1DYHpIHaAOW3K9Nu3PFB1IpZrA==
 
-stream-json-rpc@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/stream-json-rpc/-/stream-json-rpc-0.7.4.tgz#40ca2da53042ac3ad2b941b58fd8b452c1434078"
-  integrity sha512-1Xo1f7ON/PZfkgbnrsJ6snPopCw5ziMo4ZjiNNpVg8/rlMpLUfAVxsDdET6hLo71ilQlfmBjnBmsjqGSPSxdGA==
+stream-json-rpc@^0.7.8:
+  version "0.7.8"
+  resolved "https://registry.yarnpkg.com/stream-json-rpc/-/stream-json-rpc-0.7.8.tgz#d7fcd8fa1046b464b2108c6020c9a1cc76a8fd69"
+  integrity sha512-SQdUDXrBPtDXU03qu8azwS9qwPefRopeSURcQLhaEVz6PzhMHW04JWtWmhydt0yHQRV3FHq5Ikh9PP7Goe1tHg==
   dependencies:
     "@magne4000/json-rpc-peer" "^0.16.0"
     end-of-stream "^1.4.1"
@@ -4718,10 +4718,10 @@ stream-json-rpc@^0.7.4:
     pump "^3.0.0"
     uuid "^3.3.2"
 
-stream-node-ipc@^1.0.11:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/stream-node-ipc/-/stream-node-ipc-1.0.11.tgz#48967a653132f97da05cec0b01793d4bcf148de2"
-  integrity sha512-jee+Uao7CNmyBBKKAjgz+yPPN0YYOQeqN9vFezGOhQBOGC6NcMnPGgfcOcuRFaiDDTojjTRlTfir/lV5NPLRmQ==
+stream-node-ipc@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/stream-node-ipc/-/stream-node-ipc-1.0.12.tgz#ec9e56db9602e55568c2e7feeb58cddf99302fb6"
+  integrity sha512-d57VcE3FFCIO85SI7Ijyfy7GVvq+HA6LfGA6ULk1lXgv3fE6itOFOt07l0aktBkIWcgA/ZEqyg9Mqf4kpFW3WA==
   dependencies:
     node-ipc "^9.1.1"
 
